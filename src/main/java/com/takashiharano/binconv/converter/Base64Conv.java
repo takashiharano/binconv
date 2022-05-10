@@ -42,8 +42,8 @@ public class Base64Conv {
       } else {
         throw new IllegalOptionException();
       }
-    } catch (IOException ioe) {
-      Log.print(ioe);
+    } catch (Exception e) {
+      Log.print(e);
     }
   }
 

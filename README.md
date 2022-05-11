@@ -7,6 +7,8 @@ Handy tool to convert between binary and text
 mvn clean package
 ```
 
+*binconv.jar* will be generated within *target* directory.
+
 ## Usage
 
 ```sh

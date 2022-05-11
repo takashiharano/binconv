@@ -468,6 +468,10 @@ public class BinUtil {
       }
     }
 
+    if (lineBreakPos > 0) {
+      sb.append("\n");
+    }
+
     return sb.toString();
   }
 

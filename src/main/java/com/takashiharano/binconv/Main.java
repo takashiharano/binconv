@@ -74,8 +74,11 @@ public class Main {
   }
 
   static private void printUsage() {
+    String module = "binconv.jar";
+    String options = "-<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <NEWLINE_POS>] [-addr] [-ascii]";
+    String usage = "java -jar " + module + " " + options;
     Log.print("Usage:");
-    Log.print("java -jar binconv.jar -<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <NEWLINE_POS>]");
+    Log.print(usage);
     Log.print("");
     Log.print("MODE:");
     Log.print("frombase64|tobase64|fromhex|tohex|frombin|tobin");

@@ -93,7 +93,14 @@ public class HexConv {
       newlinePos = optNewline;
     }
     int newlinePosition = Integer.parseInt(newlinePos);
-    String s = BinUtil.toHexString(b, 0, 0, newlinePosition);
+
+    String s;
+    if (option.hasOption("addr")) {
+      boolean ascii = option.hasOption("ascii");
+      s = BinUtil.dump(b, 0, 0, true, true, ascii);
+    } else {
+      s = BinUtil.toHexString(b, 0, 0, newlinePosition);
+    }
 
     String destPath = option.get("o");
     if (destPath == null) {

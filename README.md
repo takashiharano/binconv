@@ -280,7 +280,7 @@ bin.txt
 
 In this way, it can also be used as a binary editor.
 
-You can also dump with the address and ASCII.
+### Dump w/ Address and ASCII
 
 ```sh
 java -jar binconv.jar -tohex -i image.jpg -o hex.txt -addr -ascii

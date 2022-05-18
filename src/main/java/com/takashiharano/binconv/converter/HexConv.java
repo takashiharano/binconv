@@ -60,6 +60,10 @@ public class HexConv {
       text = FileUtil.readText(srcPath);
     }
 
+    if (text.startsWith("Address")) {
+      text = trimHexText(text);
+    }
+
     byte[] b = BinUtil.fromHexString(text);
 
     String destPath = option.get("o");
@@ -109,6 +113,34 @@ public class HexConv {
       FileUtil.write(destPath, s);
       Log.print("OK");
     }
+  }
+
+  private static String trimHexText(String s) {
+    String[] a = text2array(s);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 2; i < a.length; i++) {
+      String w = a[i];
+      w = w.substring(10, 60);
+      sb.append(w);
+    }
+    return sb.toString();
+  }
+
+  private static String[] text2array(String src) {
+    String text = convertNewLine(src, "\n");
+    String[] arr = text.split("\n", -1);
+    if ((arr.length >= 2) && (arr[arr.length - 1].equals(""))) {
+      String[] tmp = new String[arr.length - 1];
+      for (int i = 0; i < arr.length - 1; i++) {
+        tmp[i] = arr[i];
+      }
+      arr = tmp;
+    }
+    return arr;
+  }
+
+  private static String convertNewLine(String src, String newLine) {
+    return src.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", newLine);
   }
 
 }

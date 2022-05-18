@@ -30,6 +30,7 @@ import com.takashiharano.binconv.Option;
 import com.takashiharano.binconv.util.BinUtil;
 import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
+import com.takashiharano.binconv.util.StrUtil;
 
 public class HexConv {
 
@@ -42,7 +43,7 @@ public class HexConv {
       } else {
         throw new IllegalOptionException();
       }
-    } catch (IOException ioe) {
+    } catch (Exception ioe) {
       Log.print(ioe);
     }
   }
@@ -61,7 +62,12 @@ public class HexConv {
     }
 
     if (text.startsWith("Address")) {
-      text = trimHexText(text);
+      try {
+        text = trimHexText(text);
+      } catch (Exception e) {
+        Log.print("ERROR: Illegal source format");
+        return;
+      }
     }
 
     byte[] b = BinUtil.fromHexString(text);
@@ -101,7 +107,7 @@ public class HexConv {
     String s;
     if (option.hasOption("addr")) {
       boolean ascii = option.hasOption("ascii");
-      s = BinUtil.dump(b, 0, 0, true, true, ascii);
+      s = BinUtil.dumpHex(b, 0, 0, true, true, ascii);
     } else {
       s = BinUtil.toHexString(b, 0, 0, newlinePosition);
     }
@@ -116,31 +122,14 @@ public class HexConv {
   }
 
   private static String trimHexText(String s) {
-    String[] a = text2array(s);
+    String[] a = StrUtil.text2array(s);
     StringBuilder sb = new StringBuilder();
     for (int i = 2; i < a.length; i++) {
       String w = a[i];
-      w = w.substring(10, 60);
+      w = w.substring(11, 60);
       sb.append(w);
     }
     return sb.toString();
-  }
-
-  private static String[] text2array(String src) {
-    String text = convertNewLine(src, "\n");
-    String[] arr = text.split("\n", -1);
-    if ((arr.length >= 2) && (arr[arr.length - 1].equals(""))) {
-      String[] tmp = new String[arr.length - 1];
-      for (int i = 0; i < arr.length - 1; i++) {
-        tmp[i] = arr[i];
-      }
-      arr = tmp;
-    }
-    return arr;
-  }
-
-  private static String convertNewLine(String src, String newLine) {
-    return src.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", newLine);
   }
 
 }

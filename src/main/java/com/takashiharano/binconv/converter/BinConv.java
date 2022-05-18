@@ -30,6 +30,7 @@ import com.takashiharano.binconv.Option;
 import com.takashiharano.binconv.util.BinUtil;
 import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
+import com.takashiharano.binconv.util.StrUtil;
 
 public class BinConv {
 
@@ -42,7 +43,7 @@ public class BinConv {
       } else {
         throw new IllegalOptionException();
       }
-    } catch (IOException ioe) {
+    } catch (Exception ioe) {
       Log.print(ioe);
     }
   }
@@ -59,6 +60,15 @@ public class BinConv {
         return;
       }
       text = FileUtil.readText(srcPath);
+    }
+
+    if (text.startsWith("Address")) {
+      try {
+        text = trimBinText(text);
+      } catch (Exception e) {
+        Log.print("ERROR: Illegal source format");
+        return;
+      }
     }
 
     byte[] b = BinUtil.fromBinString(text);
@@ -95,7 +105,13 @@ public class BinConv {
     }
     int newlinePosition = Integer.parseInt(newlinePos);
 
-    String s = BinUtil.toBinString(b, 0, 0, newlinePosition);
+    String s;
+    if (option.hasOption("addr")) {
+      boolean ascii = option.hasOption("ascii");
+      s = BinUtil.dumpBin(b, 0, 0, true, true, ascii);
+    } else {
+      s = BinUtil.toBinString(b, 0, 0, newlinePosition);
+    }
 
     String destPath = option.get("o");
     if (destPath == null) {
@@ -106,4 +122,14 @@ public class BinConv {
     }
   }
 
+  private static String trimBinText(String s) {
+    String[] a = StrUtil.text2array(s);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 2; i < a.length; i++) {
+      String w = a[i];
+      w = w.substring(11, 155);
+      sb.append(w);
+    }
+    return sb.toString();
+  }
 }

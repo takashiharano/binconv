@@ -12,7 +12,7 @@ mvn clean package
 ## Usage
 
 ```sh
-java -jar binconv.jar -<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <NEWLINE_POS>] [-addr] [-ascii]
+java -jar binconv.jar -<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <POS>] [-addr] [-ascii]
 ```
 MODE: frombase64|tobase64|fromhex|tohex|frombin|tobin
 

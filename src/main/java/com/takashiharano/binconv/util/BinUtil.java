@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * ! This class is a port from the code on libutil.com.
+ * # This class is a port from the code on libutil.com.
  */
 package com.takashiharano.binconv.util;
 

@@ -370,3 +370,18 @@ java -jar binconv.jar -fromurl abc+%82%A0%82%A2%82%A4 -enc SJIS
 ```
 
 The result will be "abc あいう"
+
+#### Plain text to URL encoded text
+
+```
+java -jar binconv.jar -tourl -i utf8.txt
+java -jar binconv.jar -tourl -i sjis.txt -enc SJIS
+```
+```
+java -jar binconv.jar -tourl -i utf8.txt -o utf8-url.txt
+java -jar binconv.jar -tourl -i sjis.txt -o sjis-url.txt -enc SJIS
+```
+```
+java -jar binconv.jar -tourl "abc あいう"
+java -jar binconv.jar -tourl "abc あいう" -enc SJIS
+```

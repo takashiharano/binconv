@@ -33,4 +33,27 @@ public class Option extends HashMap<String, String> {
     return this.containsKey(name);
   }
 
+  public String get(String key, String defaultValue) {
+    if (containsKey(key)) {
+      return get(key);
+    }
+    return defaultValue;
+  }
+
+  public int getIntValue(String key, int defaultValue) {
+    if (!containsKey(key)) {
+      return defaultValue;
+    }
+
+    String s = get(key);
+    int v;
+    try {
+      v = Integer.parseInt(s);
+    } catch (Exception e) {
+      v = defaultValue;
+    }
+
+    return v;
+  }
+
 }

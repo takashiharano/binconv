@@ -98,19 +98,13 @@ public class BinConv {
       b = FileUtil.read(srcPath);
     }
 
-    String newlinePos = "16";
-    String optNewline = option.get("newline");
-    if (optNewline != null) {
-      newlinePos = optNewline;
-    }
-    int newlinePosition = Integer.parseInt(newlinePos);
-
     String s;
     if (option.hasOption("addr")) {
       boolean ascii = option.hasOption("ascii");
       s = BinUtil.dumpBin(b, 0, 0, true, true, ascii);
     } else {
-      s = BinUtil.toBinString(b, 0, 0, newlinePosition);
+      int newlinePos = option.getIntValue("newline", 16);
+      s = BinUtil.toBinString(b, 0, 0, newlinePos);
     }
 
     String destPath = option.get("o");

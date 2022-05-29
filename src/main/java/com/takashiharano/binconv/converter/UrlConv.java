@@ -24,20 +24,23 @@
 package com.takashiharano.binconv.converter;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import com.takashiharano.binconv.IllegalOptionException;
 import com.takashiharano.binconv.Option;
 import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
 
-public class Base64Conv {
+public class UrlConv {
+
+  private static final String DEFAULT_CHARSET = "UTF-8";
 
   public static void main(Option option) throws IllegalOptionException {
     try {
-      if (option.hasOption("frombase64")) {
+      if (option.hasOption("fromurl")) {
         decode(option);
-      } else if (option.hasOption("tobase64")) {
+      } else if (option.hasOption("tourl")) {
         encode(option);
       } else {
         throw new IllegalOptionException();
@@ -48,86 +51,64 @@ public class Base64Conv {
   }
 
   private static void decode(Option option) throws IOException {
-    String b64;
+    String src;
 
     String srcPath = option.get("i");
     if (srcPath == null) {
-      b64 = option.get("frombase64");
+      src = option.get("fromurl");
     } else {
       if (!FileUtil.exists(srcPath)) {
         Log.print("File not found: " + srcPath);
         return;
       }
-      b64 = FileUtil.readText(srcPath);
+      src = FileUtil.readText(srcPath);
     }
 
-    if (b64 == null) {
+    if (src == null) {
       return;
     }
 
-    b64 = b64.replaceAll("\r\n", "").replaceAll("\r", "").replaceAll("\n", "");
-    byte[] content = Base64.getDecoder().decode(b64);
+    src = src.replaceAll("\r\n", "").replaceAll("\r", "").replaceAll("\n", "");
+    String enc = option.get("enc", DEFAULT_CHARSET);
+    String s = URLDecoder.decode(src, enc);
 
     String destPath = option.get("o");
     if (destPath == null) {
-      String s = new String(content);
       Log.print(s);
     } else {
-      FileUtil.write(destPath, content);
+      FileUtil.write(destPath, s, enc);
       Log.print("OK");
     }
   }
 
   private static void encode(Option option) throws IOException {
-    byte[] b;
-
+    String src;
+    String enc = option.get("enc", DEFAULT_CHARSET);
     String srcPath = option.get("i");
     if (srcPath == null) {
-      String text = option.get("tobase64");
-      b = text.getBytes("UTF-8");
+      src = option.get("tourl");
     } else {
       if (!FileUtil.exists(srcPath)) {
         Log.print("File not found: " + srcPath);
         return;
       }
-      b = FileUtil.read(srcPath);
+      src = FileUtil.readText(srcPath, enc);
     }
 
-    if (b == null) {
-      Log.print("Error: the source byte is null");
+    if (src == null) {
+      Log.print("Error: the source text is null");
       return;
     }
 
-    String b64 = Base64.getEncoder().encodeToString(b);
-
-    int newlinePos = option.getIntValue("newline", 76);
-    if (newlinePos > 0) {
-      b64 = insertNewLine(b64, newlinePos);
-    }
+    String s = URLEncoder.encode(src, enc);
 
     String destPath = option.get("o");
     if (destPath == null) {
-      Log.print(b64);
+      Log.print(s);
     } else {
-      FileUtil.write(destPath, b64);
+      FileUtil.write(destPath, s);
       Log.print("OK");
     }
-  }
-
-  private static String insertNewLine(String str, int pos) {
-    StringBuilder sb = new StringBuilder();
-    int p = 0;
-    while (p < str.length()) {
-      int endIndex = p + pos;
-      if (endIndex >= str.length()) {
-        endIndex = str.length();
-      }
-      String s = str.substring(p, endIndex);
-      sb.append(s);
-      sb.append("\r\n");
-      p += pos;
-    }
-    return sb.toString();
   }
 
 }

@@ -26,6 +26,7 @@ package com.takashiharano.binconv;
 import com.takashiharano.binconv.converter.Base64Conv;
 import com.takashiharano.binconv.converter.BinConv;
 import com.takashiharano.binconv.converter.HexConv;
+import com.takashiharano.binconv.converter.UrlConv;
 import com.takashiharano.binconv.util.Log;
 
 public class Main {
@@ -47,6 +48,8 @@ public class Main {
       HexConv.main(option);
     } else if (option.hasOption("frombin") || option.hasOption("tobin")) {
       BinConv.main(option);
+    } else if (option.hasOption("fromurl") || option.hasOption("tourl")) {
+      UrlConv.main(option);
     } else {
       throw new IllegalOptionException();
     }
@@ -75,13 +78,15 @@ public class Main {
 
   static private void printUsage() {
     String module = "binconv.jar";
-    String options = "-<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <NEWLINE_POS>] [-addr] [-ascii]";
+    String options = "-<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <POS>] [-addr] [-ascii] [-enc <CHARSET>]";
     String usage = "java -jar " + module + " " + options;
     Log.print("Usage:");
     Log.print(usage);
     Log.print("");
-    Log.print("MODE:");
-    Log.print("frombase64|tobase64|fromhex|tohex|frombin|tobin");
+    Log.print("MODE: frombase64|tobase64|fromhex|tohex|frombin|tobin|fromurl|tourl");
+    Log.print("");
+    Log.print("CHARSET: utf8, sjis, euc_jp, etc");
+    Log.print("See https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html");
   }
 
 }

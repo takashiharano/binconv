@@ -32,9 +32,9 @@ import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
 import com.takashiharano.binconv.util.StrUtil;
 
-public class BinConv {
+public class BinConv implements Converter {
 
-  public static void main(Option option) throws IllegalOptionException {
+  public void process(Option option) throws IllegalOptionException {
     try {
       if (option.hasOption("frombin")) {
         frombBin(option);

@@ -31,9 +31,9 @@ import com.takashiharano.binconv.Option;
 import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
 
-public class Base64Conv {
+public class Base64Conv implements Converter {
 
-  public static void main(Option option) throws IllegalOptionException {
+  public void process(Option option) throws IllegalOptionException {
     try {
       if (option.hasOption("frombase64")) {
         decode(option);

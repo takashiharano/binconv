@@ -32,11 +32,11 @@ import com.takashiharano.binconv.Option;
 import com.takashiharano.binconv.util.FileUtil;
 import com.takashiharano.binconv.util.Log;
 
-public class UrlConv {
+public class UrlConv implements Converter {
 
   private static final String DEFAULT_CHARSET = "UTF-8";
 
-  public static void main(Option option) throws IllegalOptionException {
+  public void process(Option option) throws IllegalOptionException {
     try {
       if (option.hasOption("fromurl")) {
         decode(option);

@@ -12,9 +12,9 @@ mvn clean package
 ## Usage
 
 ```sh
-java -jar binconv.jar -<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <POS>] [-addr] [-ascii]
+java -jar binconv.jar -<MODE> [SRC] -i <SRC_FILE_PATH> -o <DEST_FILE_PATH> [-newline <POS>] [-addr] [-ascii] [-enc <CHARSET>]
 ```
-MODE: frombase64|tobase64|fromhex|tohex|frombin|tobin
+MODE: frombase64|tobase64|fromhex|tohex|frombin|tobin|fromurl|tourl
 
 ## Example
 ### Base64
@@ -475,3 +475,26 @@ Address    +0       +1       +2       +3       +4       +5       +6       +7    
 00000560 : 00010101 00100011 11100010 10100100 10101011 00010001 01100111 00110010  10000110 00101010 01010100 00010100 00000001 01010110 00101011 10010100  .#....g2.*T..V+.
 00000570 : 11111100 11010111 00101100 00000011 11111111 11011001                                                                                             ..,...          
 ```
+
+### URL encoding
+#### URL encoded text file to decoed text file
+Default UTF-8 encoding
+```
+java -jar binconv.jar -fromurl -i url-utf8.txt -o url-utf8-dec.txt
+```
+
+SJIS encoding
+```
+java -jar binconv.jar -fromurl -i url-sjis.txt -o url-sjis-dec.txt -enc SJIS
+```
+
+The output file will be written in the specified encoding.
+
+#### Command line direct input/output
+
+```
+java -jar binconv.jar -fromurl abc+%E3%81%82%E3%81%84%E3%81%86
+java -jar binconv.jar -fromurl abc+%82%A0%82%A2%82%A4 -enc SJIS
+```
+
+The result will be "abc あいう"

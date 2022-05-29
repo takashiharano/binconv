@@ -378,8 +378,8 @@ java -jar binconv.jar -tourl -i utf8.txt
 java -jar binconv.jar -tourl -i sjis.txt -enc SJIS
 ```
 ```
-java -jar binconv.jar -tourl -i utf8.txt -o utf8-url.txt
-java -jar binconv.jar -tourl -i sjis.txt -o sjis-url.txt -enc SJIS
+java -jar binconv.jar -tourl -i utf8.txt -o url.txt
+java -jar binconv.jar -tourl -i sjis.txt -o url.txt -enc SJIS
 ```
 ```
 java -jar binconv.jar -tourl "abc あいう"

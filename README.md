@@ -349,20 +349,21 @@ Address    +0       +1       +2       +3       +4       +5       +6       +7    
 ```
 
 ### URL encoding
-#### URL encoded text file to decoed text file
-Default UTF-8 encoding
+#### Decode
+
+**URL encoded text file to decoed text file**
+
 ```
-java -jar binconv.jar -fromurl -i url-utf8.txt -o url-utf8-dec.txt
+java -jar binconv.jar -fromurl -i url.txt -o plain.txt
 ```
 
-SJIS encoding
+Decode as SJIS encoding
 ```
-java -jar binconv.jar -fromurl -i url-sjis.txt -o url-sjis-dec.txt -enc SJIS
+java -jar binconv.jar -fromurl -i url.txt -o plain.txt -enc SJIS
 ```
-
 The output file will be written in the specified encoding.
 
-#### Command line direct input/output
+**Command line direct input/output**
 
 ```
 java -jar binconv.jar -fromurl abc+%E3%81%82%E3%81%84%E3%81%86
@@ -371,16 +372,21 @@ java -jar binconv.jar -fromurl abc+%82%A0%82%A2%82%A4 -enc SJIS
 
 The result will be "abc あいう"
 
-#### Plain text to URL encoded text
+#### Encode
 
+**From file to standard output**
 ```
-java -jar binconv.jar -tourl -i utf8.txt
-java -jar binconv.jar -tourl -i sjis.txt -enc SJIS
+java -jar binconv.jar -tourl -i plain.txt
+java -jar binconv.jar -tourl -i plain.txt -enc SJIS
 ```
+
+**Plain text file to URL encoded text file**
 ```
-java -jar binconv.jar -tourl -i utf8.txt -o url.txt
-java -jar binconv.jar -tourl -i sjis.txt -o url.txt -enc SJIS
+java -jar binconv.jar -tourl -i plain.txt -o url.txt
+java -jar binconv.jar -tourl -i plain.txt -o url.txt -enc SJIS
 ```
+
+**Command line direct input/output**
 ```
 java -jar binconv.jar -tourl "abc あいう"
 java -jar binconv.jar -tourl "abc あいう" -enc SJIS
